@@ -1,4 +1,4 @@
-# Alasdair Penman Code
+# Alasdair's Code
 
 This github repository contains a variety of programs I have made.  Many are for the ICPC 
 competition practice as well as Google CodeJam. 
