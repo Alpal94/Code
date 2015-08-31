@@ -1,3 +1,9 @@
+/*	In this Google CodeJam problem, Maria has to draw many concentric rings.
+	But Maria only has a limited supply of paint.  
+	Given a radius and t millimeters of paint, this program figures out how many rings Maria
+	can draw.
+*/
+
 #include <iostream>
 #include <fstream>
 #include <sstream>

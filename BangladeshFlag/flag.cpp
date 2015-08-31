@@ -1,3 +1,12 @@
+/*	This program solves a google CodeJam problem.
+
+	We are given a description of a Bangladesh flag.  
+	However, the red centre circle of the flag may be off center.  And the rectangle may not be perfect, and the radius of the circle may not be perfect.
+  
+	This is not good, because we want a perfect flag.
+	The program will determine if the flag is perfect, and then return the result to stdout.
+*/
+
 #include<iostream>
 using namespace std;
 
@@ -8,6 +17,9 @@ int main() {
 	bool perfect;
 
 	for (int i = 0; i < T; i++) {
+		// a,b,c,d are the positions of the flag corners.
+		// e, f are the position of the red circle centre.
+		// g is the radius of our red circle.
 		cin >> a >> b >> c >> d >> e >> f >> g;
 		
 		cout << a << " " << b << " " << c << " " << d << " " << e << " " << f << " " << g << endl;

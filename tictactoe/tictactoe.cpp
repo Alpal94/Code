@@ -1,3 +1,9 @@
+/*	Welcome to tic tac toe!
+	This program is an undefeatable tic tac toe AI.  It is not only undefeatable, but 
+	will use every trick in the book to give the best chance of winning.
+	You have the first move, enjoy!
+*/
+
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -23,9 +29,8 @@ int randRange (int low, int high)
     return rand() % (high - low + 1) + low;
 }
 
-// Recording positions.
+// Recording positions.  Intelligent moves, all methods.
 void recordPosition(int row, int col);
-void AIMethods(int rows, int cols);
 int isAICorrect(int row, int col);
 void AIPosition(int rows, int cols);
 void intelligentMoveCenter(int & rows, int & cols);
@@ -143,7 +148,11 @@ int main()
         int rows, cols;
         
         // AI's turn.
+        // First find random number, default move.  Then AI will try and select a better move, based on the methods contained in the
+        // switch statements.  Methods are organised based on priority, the result of fooling a trick will be over written if
+        // AI can win the game instead, for example.
         if (placement != 10) {
+            // 10 will be returned if AI's position is not legal, will repeat the process until is legal.
             while (legal == 10) {
                 switch (randRange( 10, 19))
                 {
@@ -151,7 +160,11 @@ int main()
                         rows = 0; cols = 0; rows2 = 0;
                         
                         legal = isAICorrect(rows,cols);
-                        AIMethods(rows, cols);
+                        intelligentAntiTrick(rows, cols);
+                        intelligentMoveCenter(rows, cols);
+                        intelligentMoveRows(rows, cols);
+                        intelligentMoveCols(rows, cols);
+                        intelligentMoveCross(rows, cols);
                         AIPosition(rows, cols);
                         break;
                         
@@ -159,7 +172,11 @@ int main()
                         rows = 1; cols = 0; rows2 = 0;
                         
                         legal = isAICorrect(rows,cols);
-                        AIMethods(rows, cols);
+                        intelligentAntiTrick(rows, cols);
+                        intelligentMoveCenter(rows, cols);
+                        intelligentMoveRows(rows, cols);
+                        intelligentMoveCols(rows, cols);
+                        intelligentMoveCross(rows, cols);
                         AIPosition(rows, cols);
                         break;
                         
@@ -167,7 +184,11 @@ int main()
                         rows = 2; cols = 0; rows2 = 0;
                         
                         legal = isAICorrect(rows,cols);
-                        AIMethods(rows, cols);
+                        intelligentAntiTrick(rows, cols);
+                        intelligentMoveCenter(rows, cols);
+                        intelligentMoveRows(rows, cols);
+                        intelligentMoveCols(rows, cols);
+                        intelligentMoveCross(rows, cols);
                         AIPosition(rows, cols);
                         break;
                         
@@ -175,7 +196,11 @@ int main()
                         rows = 0; cols = 1; rows2 = 0;
                         
                         legal = isAICorrect(rows,cols);
-                        AIMethods(rows, cols);
+                        intelligentAntiTrick(rows, cols);
+                        intelligentMoveCenter(rows, cols);
+                        intelligentMoveRows(rows, cols);
+                        intelligentMoveCols(rows, cols);
+                        intelligentMoveCross(rows, cols);
                         AIPosition(rows, cols);
                         break;
                         
@@ -183,7 +208,11 @@ int main()
                         rows = 1; cols = 1; rows2 = 0;
                         
                         legal = isAICorrect(rows,cols);
-                        AIMethods(rows, cols);
+                        intelligentAntiTrick(rows, cols);
+                        intelligentMoveCenter(rows, cols);
+                        intelligentMoveRows(rows, cols);
+                        intelligentMoveCols(rows, cols);
+                        intelligentMoveCross(rows, cols);
                         AIPosition(rows, cols);
                         break;
                         
@@ -191,7 +220,11 @@ int main()
                         rows = 2; cols = 1; rows2 = 0;
                         
                         legal = isAICorrect(rows,cols);
-                        AIMethods(rows, cols);
+                        intelligentAntiTrick(rows, cols);
+                        intelligentMoveCenter(rows, cols);
+                        intelligentMoveRows(rows, cols);
+                        intelligentMoveCols(rows, cols);
+                        intelligentMoveCross(rows, cols);
                         AIPosition(rows, cols);
                         break;
                         
@@ -199,7 +232,11 @@ int main()
                         rows = 0; cols = 2; rows2 = 0;
                         
                         legal = isAICorrect(rows,cols);
-                        AIMethods(rows, cols);
+                        intelligentAntiTrick(rows, cols);
+                        intelligentMoveCenter(rows, cols);
+                        intelligentMoveRows(rows, cols);
+                        intelligentMoveCols(rows, cols);
+                        intelligentMoveCross(rows, cols);
                         AIPosition(rows, cols);
                         break;
                         
@@ -207,7 +244,11 @@ int main()
                         rows = 1; cols = 2; rows2 = 0;
                         
                         legal = isAICorrect(rows,cols);
-                        AIMethods(rows, cols);
+                        intelligentAntiTrick(rows, cols);
+                        intelligentMoveCenter(rows, cols);
+                        intelligentMoveRows(rows, cols);
+                        intelligentMoveCols(rows, cols);
+                        intelligentMoveCross(rows, cols);
                         AIPosition(rows, cols);
                         break;
                         
@@ -215,7 +256,12 @@ int main()
                         rows = 2; cols = 2; rows2 = 0;
                         
                         legal = isAICorrect(rows,cols);
-                        AIMethods(rows, cols);
+                        intelligentAntiTrick(rows, cols);
+                        intelligentMoveCenter(rows, cols);
+                        
+                        intelligentMoveRows(rows, cols);
+                        intelligentMoveCols(rows, cols);
+                        intelligentMoveCross(rows, cols);
                         AIPosition(rows, cols);
                         break;
                 }
@@ -245,6 +291,7 @@ int main()
 void printBoard()
 {
     // Print the board based on the array.
+    // 2's represent O's, 1's represent X's.
     for (int y = 0; y < 3; y++) {
         for (int x = 0; x < 3; x++) {
             if (boardPositions[ x ][ y ] == 0) {
@@ -280,21 +327,11 @@ void recordPosition(int row, int col)
 // Take the centre position if available.
 void intelligentMoveCenter(int & rows, int & cols)
 {
+    // Take the centre position if it hasn't been taken already.
     if (boardPositions[ 1 ][ 1 ] == 0) {
         rows = 1;
         cols = 1;
     }
-}
-
-// All the AI's methods
-void AIMethods(int rows, int cols)
-{
-    void intelligentMoveCenter(int & rows, int & cols);
-    void intelligentMoveRows(int & rows, int & cols);
-    void intelligentMoveCols(int & rows, int & cols);
-    void intelligentMoveCross( int & rows, int & cols);
-    rows = rows;
-    cols = cols;
 }
 
 // Determine if there is a winning move (for AI or human) using a row.
@@ -304,21 +341,28 @@ void intelligentMoveRows(int & rows, int & cols)
     int count = 0;
     int deltaPlace;
     for (int y = 0; y < 3; y++) {
+        // Check every row for friendly O's.
         for (int x = 0; x < 3; x++) {
             if (boardPositions[ x ][ y ] == 2) {
                 count++;
             }
         }
+        // If row count is 2, may be able to win game.
         if (count == 2) {
             for (int x = 0; x < 3; x++) {
                 if (boardPositions[ x ][ y ] == 0) {
+                    // Win game if possible.
                     rows = x;
                     cols = y;
+                    // Use deltaPlace to determine if AI has made its move.
+                    // Don't want to accidentally block, if AI should really win!
+                    // Set deltaPlace to 2, that indicates AI has made its move.
                     deltaPlace = 2;
                     
                 }
             }
         }
+        // AI can't win using the rows. Same code but checks enemy X's.
         if (deltaPlace != 2) {
             count = 0;
             for (int x = 0; x < 3; x++) {
@@ -346,6 +390,7 @@ void intelligentMoveCols(int & rows, int & cols)
 {
     int count = 0;
     int deltaPlace;
+    // Same code for checking rows, but for columns.
     for (int x = 0; x < 3; x++) {
         for (int y = 0; y < 3; y++) {
             if (boardPositions[ x ][ y ] == 2) {
@@ -391,16 +436,23 @@ void intelligentMoveCross( int & rows, int & cols)
     int counta = 0;
     int y = 3;
     for (int x = 0; x < 3; x++) {
+        // Count enemy in diagonal.
+        // This diagonal:
+        //     O
+        //   X
+        // X
         y--;
         if (boardPositions[ x ][ y ] == 1) {
             counta++;
         }
     }
     if (counta == 2) {
+        // If count is equal to 2, may able to move (if AI hasn't taken piece already)
         y = 3;
         counta = 0;
         for (int x = 0; x < 3; x++) {
             y--;
+            // Record position as AI's move.
             if (boardPositions[ x ][ y ] == 0) {
                 rows = x;
                 cols = y;
@@ -411,16 +463,19 @@ void intelligentMoveCross( int & rows, int & cols)
     y = -1;
     counta = 0;
     for (int x = 0; x < 3; x++) {
+        // Count enemy in other diagonal.
         y++;
         if (boardPositions[ x ][ y ] == 1) {
             counta++;
         }
     }
     if (counta == 2) {
+        // If count is equal to 2, may able to move (if AI hasn't taken piece already)
         y = -1;
         counta = 0;
         for (int x = 0; x < 3; x++) {
             y++;
+            // Record position as AI's move.
             if (boardPositions[ x ][ y ] == 0) {
                 rows = x;
                 cols = y;
@@ -428,7 +483,8 @@ void intelligentMoveCross( int & rows, int & cols)
         }
         
     }
-
+    
+    // Same code as before, but instead will allow AI to win the game, if possible.
     counta = 0;
     y = 3;
     for (int x = 0; x < 3; x++) {
@@ -476,33 +532,123 @@ void intelligentMoveCross( int & rows, int & cols)
 // Avoid falling for tricks
 void intelligentAntiTrick(int & rows, int & cols)
 {
+    // In the array 1 represents crosses, 2 represents knots.
+    
+    // Check for tricks who's set up involves at least one corner
+    // For example
+    // X
+    //   O
+    //   X
+    // Or
+    //     X
+    //   O
+    // X
+    // Or
+    //
+    // X O
+    //     X
+    // For this one, trick is foiled by predetermined steps taken by AI, there is only one case:
+    //     X
+    //   X
+    // O
+    
+    // To stop the trick.  Force player to move using the horizontal or vertical.  Not diagonal.
+    // For example:
+    //     X
+    //   O
+    // X
+    // Then
+    //     X
+    // O O
+    // X
+    // Then
+    //     X
+    // O O X
+    // X
+    //     X
+    // O O X
+    // X   O
+    // Trick avoided.
+    
+    int counta = 0;
+    int y = 0;
+    // Check every corner for enemy piece.
     for (int x = 0; x < 3; x += 2)
     {
-        for (int y = 0; x < 3; y += 2)
+        for (int y = 0; y < 3; y += 2)
         {
+            // If yes, possible trick,act to avoid.  We start with
             if (boardPositions[ x ][ y ] == 1) {
+                // Check to see if AI can force a move on the horizontal.
+                counta = 0;
+                for (int x = 0; x < 3; x++) {
+                    // Count number of taken tiles.  If center piece is the only taken, AI can force a move.
+                    if ((boardPositions[ x ][ 1 ] == 1) || (boardPositions[ x ][ 1 ] == 2)) {
+                        counta++;
+                    }
+                }
                 for (int x = 0; x < 3; x += 2)
                 {
-                    if (boardPositions[ x ][ 1 ] == 0) {
+                    // Force a move if center piece is the only piece, when count = 1
+                    if ((boardPositions[ x ][ 1 ] == 0) && (counta == 1)) {
                         rows = x;
-                        cols = y;
+                        cols = 1;
+                    }
+                }
+                counta = 0;
+                // Check to see if move can be forced on the vertical.
+                for (int y = 0; y < 3; y++) {
+                    // Same steps as move forcing for the horizontal.
+                    if ((boardPositions[ 1 ][ y ] == 1) || (boardPositions[ 1 ][ y ] == 2)) {
+                        counta++;
                     }
                 }
                 for (int y = 0; y < 3; y += 2)
                 {
-                    if (boardPositions[ 1 ][ y ] == 0) {
-                        rows = x;
+                    if ((boardPositions[ 1 ][ y ] == 0) && (counta == 1)) {
+                        rows = 1;
                         cols = y;
                     }
                 }
             }
         }
     }
+    
+    
+    //Check for tricks who's set up doesn't involve a corner.
+    // Trick looks like this:
+    //   X
+    // X O
+    //
+    // Or
+    //   X
+    //   O X
+    //
+    
+    
+    // If possible trick, take the corner which will stop disaster.
+    if (boardPositions[ 1 ][ 0 ] + boardPositions[ 0 ][ 1 ] == 2) {
+        rows = 0;
+        cols = 0;
+    }
+    if (boardPositions[ 1 ][ 0 ] + boardPositions[ 2 ][ 1 ] == 2) {
+        rows = 2;
+        cols = 0;
+    }
+    if (boardPositions[ 0 ][ 1 ] + boardPositions[ 1 ][ 2 ] == 2) {
+        rows = 0;
+        cols = 2;
+    }
+    if (boardPositions[ 2 ][ 1 ] + boardPositions[ 1 ][ 2 ] == 2) {
+        rows = 2;
+        cols = 2;
+    }
 }
 
 // Determine if AI's position is legal
 int isAICorrect(int row1, int col1)
 {
+    // Returning number 10 will force the while loop to generate a new random number.
     if (boardPositions[ row1 ][ col1 ] == 1) {
         legal = 10;
         return 10;
@@ -528,6 +674,7 @@ void AIPosition(int rows, int cols)
 // Does the game end, horizontal win lose?
 void winLoseHorizontal(int winLose, int & placement)
 {
+    // Count elements in each row to see if game has ended.
     int counta = 0;
     for (int y = 0; y < 3; y++) {
         for (int x = 0; x < 3; x++) {
@@ -553,6 +700,7 @@ void winLoseHorizontal(int winLose, int & placement)
 //Vertical win lose?
 void winLoseVertical(int winLose, int & placement)
 {
+    // Count elements in each column to see if game has ended.
     int counta = 0;
     for (int x = 0; x < 3; x++) {
         for (int y = 0; y < 3; y++) {
@@ -578,6 +726,7 @@ void winLoseVertical(int winLose, int & placement)
 //Cross win lose?
 void winLoseCross(int winLose, int & placement)
 {
+    // Count elements in each diagonal to see if game has ended.
     int counta = 0;
     int y = 3;
     for (int x = 0; x < 3; x++) {

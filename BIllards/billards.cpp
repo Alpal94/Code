@@ -1,3 +1,11 @@
+/* 	This program solves a practice ICPC Billards problem.
+	The problem is set on an infinitly big pool table.
+	For input, the program takes the billard balls position, direction, and velocity.
+	The position of a hole, which the billard ball must land in, is also read from input.
+	Then, the program works out the position of a "reflector" which deflects the ball into the hole.
+	The program then prints the deflector position to stdout.
+ */
+
 #include<iostream>
 #include <cstdio>
 #include<sstream>
@@ -9,7 +17,7 @@ int main () {
 	string line;
 	float array[7];
 
-
+	
 	float pi = 3.1415926535897;	
 	float Y; double theta; double thetaOrig; 
 	float xBall; double yBall;

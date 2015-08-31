@@ -1,3 +1,17 @@
+/*	This program will create N nested loops, which can be used in any program to do work.  
+	For example, if N = 3 and we want to iterate from i = 0 to i = 5, the equivalent is:
+	
+	for(int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; i++) {
+			}
+		}
+	}
+
+	The traditional approach to this program is to use recursion, but recursion is relatively slow.
+	I use goto statements to create a more efficient solution.
+*/
+
 #include<stdio.h>
 #include<stdlib.h>
 

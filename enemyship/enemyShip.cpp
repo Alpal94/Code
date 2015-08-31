@@ -1,3 +1,9 @@
+/*	This is a simple program, which could be used in a game.
+	It's main use is to experiment with structs, it is a demonstration.
+	The program creates a struct, which could be an enemy ship.  The program
+	then creates an enemy ship and "moves" it.
+*/
+	
 #include<iostream>
 using namespace std;
 
